@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.core.urlresolvers import reverse
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
@@ -8,6 +9,9 @@ class Category(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('store:ProductsInCategory', args=[self.slug])
 
 class Product(models.Model):
     name = models.CharField(max_length=50)
@@ -19,3 +23,6 @@ class Product(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('store:ProductDetail', args=[self.id, self.slug])
