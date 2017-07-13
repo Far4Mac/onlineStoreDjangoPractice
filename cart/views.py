@@ -24,7 +24,7 @@ class CartRemove(FormView):
     template_name = 'cart/detail.html'
     form_class = CartAddProductForm
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         cart = Cart(request)
         product = get_object_or_404(Product, id=self.kwargs['product_id'])
         cart.remove(product)
@@ -37,4 +37,10 @@ class CartDetail(View):
 
     def get(self, request, *args, **kwargs):
         cart = Cart(request)
+        for item in cart:
+            item['update_quantity_form'] = CartAddProductForm(
+                initial={
+                    'quantity': item['quantity'],
+                    'update': True
+                })
         return render(request, self.template_name, {'cart':cart})
