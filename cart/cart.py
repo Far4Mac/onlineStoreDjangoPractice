@@ -15,7 +15,7 @@ class Cart(object):
         product_id = str(product.id)
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity':0,
-                                     'price':Decimal(product.price)}
+                                     'price':str(product.price)}
         if update_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:
@@ -47,7 +47,6 @@ class Cart(object):
         return sum(item['quantity'] for item in self.cart.values())
 
     def get_total_price(self):
-        print self.cart.values()
         return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
 
     def clear(self):
